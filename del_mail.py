@@ -13,12 +13,12 @@ if not creds or creds.invalid:
     flow = client.flow_from_clientsecrets('credentials.json', SCOPES)
     creds = tools.run_flow(flow, store)
 service = build('gmail', 'v1', http=creds.authorize(Http()))
-me = "email@gmail.com"
+me = "me@gmail.com"
 keyword = "larger:1"
 print("The keyword is " + keyword)
 
 # Get messages
-req = service.users().messages().list(userId='me', q=keyword)
+req = service.users().messages().list(userId=me, q=keyword)
 res = req.execute()
 messages = res.get('messages')
 
@@ -43,7 +43,7 @@ while messages != None and len(messages) > 0:
     count = len(messages)
     print("Deleting %d emails" % count)
     ids = {'ids': [m['id'] for m in messages]}
-    deleted = service.users().messages().batchDelete(userId='me',
+    deleted = service.users().messages().batchDelete(userId=me,
             body=ids).execute()
     total += count
     print("Deleted %d emails" % total)
