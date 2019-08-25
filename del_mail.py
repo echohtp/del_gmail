@@ -13,9 +13,8 @@ if not creds or creds.invalid:
     flow = client.flow_from_clientsecrets('credentials.json', SCOPES)
     creds = tools.run_flow(flow, store)
 service = build('gmail', 'v1', http=creds.authorize(Http()))
-
-print("Input the search keyword:")
-keyword = input()
+me = "email@gmail.com"
+keyword = "to:{}".format(me)
 print("The keyword is " + keyword)
 
 # Get messages
@@ -31,12 +30,11 @@ if messages is None or len(messages) <= 0:
 print("Here is some of the mails.")
 print()
 for m in messages[:10]:
-    mail = service.users().messages().get(userId='me', id=m['id'],
+    mail = service.users().messages().get(userId=me, id=m['id'],
             format='metadata').execute()
     print(mail['snippet'])
 print()
 print("Is these looks like the mails you want to delete? Print enter to continue, Ctrl+C to exit.")
-input()
 
 total = 0
 
