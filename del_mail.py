@@ -14,7 +14,7 @@ if not creds or creds.invalid:
     creds = tools.run_flow(flow, store)
 service = build('gmail', 'v1', http=creds.authorize(Http()))
 me = "email@gmail.com"
-keyword = "to:{}".format(me)
+keyword = "larger:1"
 print("The keyword is " + keyword)
 
 # Get messages
